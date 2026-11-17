@@ -22,3 +22,6 @@ Substituir o controle manual fragmentado em papel e mensagens soltas por uma age
 ## Estrutura do Projeto
 - `/docs`: Prototipos validados e documentacao funcional do MVP.
 - `/src`: Codigo-fonte da aplicacao (HTML, CSS, JavaScript e configuracao PWA).
+## Como Executar o MVP
+1. Clone este repositorio ou abra o ficheiro `src/index.html` em qualquer navegador moderno.
+2. Utilize as credenciais ficticias de demonstracao (`tecnico.demo@elizeumoveis.com.br` / `12345678`) para testar o fluxo completo das tres telas.
