@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elizeu Montador de Móveis — Agenda Operacional</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- TELA 1: ENTRADA PRINCIPAL / LOGIN (RF01) -->
+  <main id="tela-login" class="tela ativa" aria-labelledby="titulo-login">
+    <header class="topo-app">
+      <h1 id="titulo-login">Elizeu Montador de Móveis</h1>
+      <p class="subtitulo">Agenda Operacional em Campo</p>
+    </header>
+
+    <section class="cartao">
+      <h2>Acesso do Técnico</h2>
+      <form id="form-login" novalidate>
+        <div class="campo-grupo">
+          <label for="login-email">E-mail profissional *</label>
+          <input type="email" id="login-email" value="tecnico.demo@elizeumoveis.com.br" required autocomplete="username">
+        </div>
+
+        <div class="campo-grupo">
+          <label for="login-senha">Senha de acesso *</label>
+          <div class="senha-wrapper">
+            <input type="password" id="login-senha" value="12345678" required autocomplete="current-password">
+            <button type="button" id="btn-toggle-senha" class="btn-secundario" aria-label="Exibir ou ocultar senha">Mostrar</button>
+          </div>
+        </div>
+
+        <p id="erro-login" class="alerta-inline oculto" role="alert"></p>
+        <button type="submit" class="btn-primario">Entrar na Agenda</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- TELA 2: AGENDA DIÁRIA E FILTRO REGIONAL (RF04, RF05) -->
+  <main id="tela-agenda" class="tela oculto" aria-labelledby="titulo-agenda">
+    <header class="topo-app topo-flex">
+      <div>
+        <h1 id="titulo-agenda">Agenda — 20/11/2026</h1>
+        <p class="subtitulo">Técnico: Elizeu Malaquias</p>
+      </div>
+      <button type="button" id="btn-sair" class="btn-secundario">Sair</button>
+    </header>
+
+    <section class="filtros-box" aria-label="Filtros regionais">
+      <div class="chips-regiao" role="group" aria-label="Filtrar por macrorregião">
+        <button type="button" class="chip ativo" data-regiao="Todos">Todos</button>
+        <button type="button" class="chip" data-regiao="Grande ABC">Grande ABC</button>
+        <button type="button" class="chip" data-regiao="Grande SP">Grande SP</button>
+        <button type="button" class="chip" data-regiao="Capital">Capital</button>
+      </div>
+      <label for="busca-bairro" class="sr-only">Buscar por bairro ou município</label>
+      <input type="search" id="busca-bairro" placeholder="Buscar bairro ou cidade (ex: Campestre)...">
+    </section>
+
+    <section id="lista-servicos" class="lista-cards" aria-live="polite"></section>
+
+    <footer class="barra-inferior">
+      <button type="button" id="btn-ir-cadastro" class="btn-primario">+ Novo Agendamento</button>
+    </footer>
+  </main>
+
+  <!-- TELA 3: CADASTRO RÁPIDO E ALERTA DE CONFLITO (RF02, RF03, RNF04) -->
+  <main id="tela-cadastro" class="tela oculto" aria-labelledby="titulo-cadastro">
+    <header class="topo-app topo-flex">
+      <h1 id="titulo-cadastro">Novo Agendamento</h1>
+      <button type="button" id="btn-voltar-topo" class="btn-secundario">Voltar</button>
+    </header>
+
+    <section class="cartao">
+      <form id="form-cadastro" novalidate>
+        <div class="campo-grupo">
+          <label for="cad-telefone">Telefone WhatsApp *</label>
+          <input type="tel" id="cad-telefone" placeholder="(11) 99999-0102" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-cliente">Nome do Cliente *</label>
+          <input type="text" id="cad-cliente" placeholder="Ex: Roberto Almeida" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-endereco">Endereço *</label>
+          <input type="text" id="cad-endereco" placeholder="Ex: Rua das Acácias, 120" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-bairro">Bairro *</label>
+          <input type="text" id="cad-bairro" placeholder="Ex: Baeta Neves" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-regiao">Município / Macrorregião *</label>
+          <select id="cad-regiao" required>
+            <option value="Grande ABC">São Bernardo do Campo (Grande ABC)</option>
+            <option value="Grande ABC">Santo André (Grande ABC)</option>
+            <option value="Grande SP">Guarulhos / Osasco (Grande SP)</option>
+            <option value="Capital">São Paulo (Capital)</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-data">Data *</label>
+          <input type="text" id="cad-data" value="20/11/2026" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-horario">Horário *</label>
+          <input type="time" id="cad-horario" value="09:00" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-movel">Descrição do Móvel *</label>
+          <input type="text" id="cad-movel" placeholder="Ex: Painel de TV e Rack Suspenso" required>
+        </div>
+        <div class="campo-grupo">
+          <label for="cad-valor">Valor Acordado (R$) *</label>
+          <input type="text" id="cad-valor" placeholder="180,00" required>
+        </div>
+
+        <!-- ALERTA MULTIMODAL DE CONFLITO (RF03 + RNF04) -->
+        <div id="alerta-conflito" class="alerta-conflito oculto" role="alert" aria-live="assertive">
+          <div class="alerta-cabecalho">
+            <span class="alerta-icone" aria-hidden="true">⚠️</span>
+            <strong>Conflito de Horário Detectado</strong>
+          </div>
+          <p id="alerta-conflito-texto"></p>
+          <div class="alerta-acoes">
+            <button type="button" id="btn-ajustar-horario" class="btn-secundario">Ajustar Horário</button>
+            <button type="button" id="btn-forcar-salvar" class="btn-perigo">Manter Mesmo Assim e Salvar</button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-salvar-servico" class="btn-primario">Salvar Agendamento</button>
+        <button type="button" id="btn-voltar-base" class="btn-secundario btn-full">Voltar para Agenda</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
